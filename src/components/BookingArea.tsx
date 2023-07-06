@@ -1,56 +1,58 @@
 import React from 'react';
-import { Row, Col } from 'antd';
-import {  Select, Space } from 'antd';
-import type { SelectProps } from 'antd';
+import { Col, Typography, Row, Button } from 'antd';
+import styled from 'styled-components';
+import CitiesEntry from './CitiesEntry';
+import { useNavigate } from 'react-router-dom';
 
+const Text = styled.div`
+    padding: 0 30%;
+    font-family: Bebas;
+    font-weight: normal;
+    font-size: 2rem;
+    letter-spacing: 2px;
+`
 
-const cities: Array<string> = ['Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Казань',
-'Нижний Новгород', 'Челябинск', 'Омск', 'Краснодар', 'Ростов-на-Дону', 'Уфа', 'Красноярск', 'Пермь', 'Воронеж', 'Волгоград', 'Самара'];
-
-const options: SelectProps['options'] = [];
-
-for (let i = 0; i < cities.length; i++) {
-    options.push({
-        value: cities.at(i),
-        label: cities.at(i)
-    });
-}
-
-
-const handleChange = (value: string | string[]) => {
-    console.log(`Selected: ${value}`);
-};
-
-const BookingArea: React.FC = () => {
+export default function BookingArea() {
+    const navigate = useNavigate();
 
     return (
         <>
-            <Row justify="start">
-                <Col span={5}>
-                    <Space direction="vertical" style={{width: '100%'}}>
-                <Select
-                    size="middle"
-                    style={{ width: '90%' }}
-                    placeholder={'Город вылета'}
-                    onChange={handleChange}
-                    options={options}
-                    />
-                    </Space>
-                </Col>
-                <Col span={5}>
-                    <Space direction="vertical" style={{width: '100%'}}>
-                <Select
-                    size="middle"
-                    style={{ width: '90%' }}
-                    placeholder={'Город прилета'}
-                    onChange={handleChange}
-                    options={options}
-                    />
-                    </Space>
-                </Col>
+        <Row>
+            <Col span={6} style={{ ...centerStyle}}>
+                <Text>MY TRIPS</Text>
+                <Typography.Text style={{padding: '0 25%'}}>Manage an existing trip</Typography.Text>
+            </Col>
+            <Col span={6} style={{ ...centerStyle, backgroundColor: '#9b0b0b' }}>
+                <Text>BOOK A TRIP</Text>
+                <Typography.Text style={{padding: '0 30%'}}>Flight, car</Typography.Text>
+            </Col>
+            <Col span={6} style={{ ...centerStyle }}>
+                <Text>FLIGHT STATUS</Text>
+                <Typography.Text style={{padding: '0 24%'}}>Arrivals & departures</Typography.Text>
+            </Col>
+            <Col span={6} style={{ ...centerStyle }}>
+                <Text>CHECK IN</Text>
+                <Typography.Text style={{padding: '0 32%'}}>Boarding pass</Typography.Text>
+            </Col>
+        </Row>
+        <Row style={{ minHeight: '70vh'}}>
+            <Col span={6} />
+            <Col span={6} style={{backgroundColor: '#fff', padding: '1% 2%'}}>
+                <Typography.Text style={{fontSize: '1rem', fontWeight: 'semi-bold'}}>Destination Details</Typography.Text>
+                <CitiesEntry />
+            <br/>
+            <Row>
+                <Button onClick={() => navigate(-1)} type="primary">Back</Button>
             </Row>
+            </Col>
+            <Col span={6} />
+            <Col span={6} />
+        </Row>
         </>
     );
 };
 
-export default BookingArea;
+const centerStyle = {
+    display: 'block',
+    justifyContent: 'center',
+  };
