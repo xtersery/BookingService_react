@@ -9,13 +9,13 @@ export default function FirstPage() {
 
     const onClick: MenuProps['onClick'] = (e) => {
       setCurrent(e.key);
-      navigate("book");
+      navigate("../book");
     }
 
     return (
         <>
             <Row style={{marginTop: '60vh'}}>
-            {Array.of('01','02','03','04').map((item) => <Col span={5} offset={1}
+            {Array.of('01','02','03','04').map((item, i) => <Col key={i} span={5} offset={1}
             style={{fontFamily: 'Bebas', fontSize: '4rem', fontStyle: 'normal', color: '#a61513'}}>{item}</Col>)}
             </Row>
             <Menu onClick={onClick} selectedKeys={[current]} mode='horizontal'

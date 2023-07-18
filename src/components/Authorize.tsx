@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import { UserOutlined, MailOutlined } from '@ant-design/icons';
-import { useNavigate, Routes, Route } from 'react-router-dom';
-import FirstPage from './FirstPage';
-import BookingArea from './BookingArea';
+import { IonIcon } from '@ionic/react';
+import { Link, useNavigate } from 'react-router-dom';
+import { mailOutline, personOutline, lockClosedOutline } from 'ionicons/icons';
 import { Layout, Typography, Input, Button, Row, Col } from 'antd';
-const { Header, Content, Footer } = Layout;
 
 const Form = styled.div`
     justify-content: center;
@@ -14,17 +12,21 @@ const Form = styled.div`
 `
 
 export default function Authorize() {
-    const [email, setEmail] = useState<string>("");
-    const [username, setUsername] = useState<string>("");
     const navigate = useNavigate();
+    let email: string = '';
+    let password: string = '';
+    let username: string = '';
+
 
     const sendRequest = async () => {
         const user = {
             "email": email,
-            "username": username,
+            "password": password,
+            "username": username
         };
-        await fetch('http://localhost:8080/hello', {
+        await fetch('http://localhost:8080/', {
             method: 'POST',
+            credentials: 'include',
             body: JSON.stringify(user),
             headers: {
                 'Detail': 'user',
@@ -32,38 +34,48 @@ export default function Authorize() {
             },
         })
         .catch((err) => console.log(err.message));
-
+        navigate("../");
     }
 
     return (
-        <Layout>
-            <Header style={{minHeight: '20vh'}}/>
-            <Content style={{alignContent: 'center'}}>
-
-                    <Row style={{justifyContent: 'center'}}>
-                        <Col span={7}>
-                        <Typography.Title level={2}>Authorize</Typography.Title>
-                        <Input size="large" placeholder="Email address" prefix={<MailOutlined />} value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <br />
-                        <br />
-                        <Input size="large" placeholder="Username" prefix={<UserOutlined />} value={username} onChange={(e) => setUsername(e.target.value)}/>
-
-                        <br />
-                        <br />
-                        <br />
-
-                        <Row>
-                            <Col span={6}>
-                            <Button onClick={sendRequest} type="primary">Confirm</Button>
-                            </Col>
-                            <Col span={3}>
-                            <Button onClick={() => navigate(-1)} type="primary">Back</Button>
-                            </Col>
-                        </Row>
-                        </Col>
-                    </Row>
-            </Content>
-            <Footer />
-        </Layout>
+    <div className="container">
+        <div className="wrapper">
+            <div className="form-box register">
+                <h2>Registration</h2>
+                <form action="#">
+                    <div className="input-box">
+                        <span className="icon">
+                            <IonIcon icon={personOutline}/>
+                        </span>
+                        <input type="text" onChange={(e) => username = e.target.value} required/>
+                        <label>Full name</label>
+                    </div>
+                    <div className="input-box">
+                        <span className="icon">
+                            <IonIcon icon={mailOutline}/>
+                        </span>
+                        <input type="email" onChange={(e) => email = e.target.value} required/>
+                        <label>Email</label>
+                    </div>
+                    <div className="input-box">
+                        <span className="icon">
+                            <IonIcon icon={lockClosedOutline} />
+                        </span>
+                        <input type="password" onChange={(e) => password = e.target.value} required/>
+                        <label>Password</label>
+                    </div>
+                    <div className="remember-forgot">
+                    <label><input type="checkbox"/>I agree to the terms & conditions</label>
+                    </div>
+                    <button type="submit" className="btn" onClick={sendRequest}>Register</button>
+                    <div className="login-register">
+                        <p>Already have an account <br/>
+                        <Typography.Text onClick={() => navigate("../login")}>Login</Typography.Text>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     );
 }

@@ -1,0 +1,35 @@
+<div className="form-box register">
+    <h2>Regi</h2>
+    <form action="#">
+        <div className="input-box">
+            <span className="icon">
+                <IonIcon icon={personOutline}/>
+            </span>
+            <input type="text" required/>
+            <label>Full name</label>
+        </div>
+        <div className="input-box">
+            <span className="icon">
+                <IonIcon icon={mailOutline}/>
+            </span>
+            <input type="email" required/>
+            <label>Email</label>
+        </div>
+        <div className="input-box">
+            <span className="icon">
+                <IonIcon icon={lockClosedOutline} />
+            </span>
+            <input type="password" required/>
+            <label>Password</label>
+        </div>
+        <div className="remember-forgot">
+        <label><input type="checkbox"/>I agree to the terms & conditions</label>
+        </div>
+        <button type="submit" className="btn">Register</button>
+        <div className="login-register">
+            <p>Already have an account <a onClick="wrapper.classList.remove('active')"
+                                        href='#'
+                                        className="login-link">Login</a></p>
+        </div>
+    </form>
+</div>

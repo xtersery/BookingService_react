@@ -4,8 +4,9 @@ import {  Select } from 'antd';
 import type { SelectProps } from 'antd';
 
 
-const cities: Array<string> = ['Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Казань',
-'Нижний Новгород', 'Челябинск', 'Омск', 'Краснодар', 'Ростов-на-Дону', 'Уфа', 'Красноярск', 'Пермь', 'Воронеж', 'Волгоград', 'Самара'];
+const cities: Array<string> = ['Москва  (SVO)', 'Санкт-Петербург  (LED)',
+'Новосибирск  (OVB)', 'Екатеринбург  (SVX)', 'Казань  (KZN)', 'Нижний Новгород  (GOJ)',
+'Краснодар  (KRR)', 'Уфа  (UFA)'];
 
 const options: SelectProps['options'] = [];
 
@@ -17,47 +18,44 @@ for (let i = 0; i < cities.length; i++) {
 }
 
 
-const BookingArea: React.FC = () => {
 
-    const [departure, setDeparture] = useState({});
-    let destination = {};
+function CitiesEntry({returnData = f => f}) {
+
+    const [departure, setDeparture] = useState('');
+    let destination = '';
 
     const pickDeparture = (value: string) => {
-        setDeparture({ value });
+        setDeparture(value);
     }
 
     const pickDestination = (value: string) => {
-        destination = { value };
+        destination = value;
         console.log(`Changing destination to ${value}`);
         let json = {
-            "departure": {...departure},
-            "destination": {...destination}
+            "departure": departure,
+            "destination": destination
         };
-        sendRequest(json);
+
+        returnData(json);
     }
 
-    const sendRequest = async (data) => {
-        // let req = new XMLHttpRequest();
-        // req.open("POST", "http://localhost:8080/hello", true);
-        // req.setRequestHeader('Content-type', 'application/json');
-        // console.log(json);
-        // req.send(JSON.stringify(json));
+    // const sendRequest = async (data) => {
 
-        await fetch('http://localhost:8080/hello', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Detail': 'requisites',
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        })
-        .catch((err) => console.log(err.message));
-    }
+    //     await fetch('http://localhost:8080/', {
+    //         method: 'POST',
+    //         credentials: 'include',
+    //         body: JSON.stringify(data),
+    //         headers: {
+    //             'Detail': 'requisites',
+    //             'Content-type': 'application/json; charset=UTF-8',
+    //         },
+    //     })
+    //     .catch((err) => console.log(err.message));
+    // }
 
     return (
         <>
-            <Row justify="start" style={{width: '80%'}}>
-
+            <Row justify="start" style={{width: '80%', padding: '3% 0 3%'}}>
 
                 <Select
                     onSelect={pickDeparture}
@@ -65,6 +63,7 @@ const BookingArea: React.FC = () => {
                     size="middle"
                     style={{ width: '90%' }}
                     placeholder={'Город вылета'}
+                    bordered={false}
                     />
 
 
@@ -79,6 +78,7 @@ const BookingArea: React.FC = () => {
                     size="middle"
                     style={{ width: '90%' }}
                     placeholder={'Город прилета'}
+                    bordered={false}
                     />
 
             </Row>
@@ -86,4 +86,4 @@ const BookingArea: React.FC = () => {
     );
 };
 
-export default BookingArea;
+export default CitiesEntry;
